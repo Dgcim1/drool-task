@@ -1,0 +1,25 @@
+package plausibcheck.adress
+
+import ru.dgcim.drooltask.entity.RequestBean
+import java.math.BigDecimal;
+
+rule "Promotion 10% for purchases over 5000"
+    when
+        requestBean : RequestBean(getAmount() > 5000 && getAmount() < 10000)
+    then
+        requestBean.setAmount(requestBean.getAmount().multiply(new BigDecimal("0.9")));
+end
+
+rule "Promotion 20% for purchases over 10000"
+    when
+        requestBean : RequestBean(getAmount() > 10000)
+    then
+        requestBean.setAmount(requestBean.getAmount().multiply(new BigDecimal("0.8")));
+end
+
+rule "Promotion 100$ for product quantity over 10"
+    when
+        requestBean : RequestBean(getQuantity() > 10)
+    then
+        requestBean.setAmount(requestBean.getAmount().subtract(new BigDecimal("100")));
+end
